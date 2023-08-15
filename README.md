@@ -3,7 +3,7 @@
 Entegreli [ps-mdt](https://github.com/Project-Sloth/ps-mdt)
 
 Destek icin [Discord]Ritalin. 
-Bu bir edittir orjinali project sloth adinda birinindir
+Bu bir edittir
 
 # Kurulum
 * ZIP Indirin
