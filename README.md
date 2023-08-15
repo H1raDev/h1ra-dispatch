@@ -1,18 +1,18 @@
 # QBCore Dispatch
 
-Integrated with [ps-mdt](https://github.com/Project-Sloth/ps-mdt)
+Entegreli [ps-mdt](https://github.com/Project-Sloth/ps-mdt)
 
-For all support questions, ask in our [Discord](https://www.discord.gg/projectsloth) support chat. 
-Do not create issues on GitHub if you need help. Issues are for bug reporting and new features only.
+Destek icin [Discord]Ritalin. 
+Bu bir edittir orjinali project sloth adinda birinindir
 
-# Installation
-* Download ZIP
-* Drag and drop resource into your server files
-* Start resource through server.cfg
-* Drag and drop sounds folder into interact-sound\client\html\sounds
+# Kurulum
+* ZIP Indirin
+* Sunucu dosyaniza surukleyin
+*  server.cfg Server.cfg'den ensure verin
+* sounds dosyasina atin interact-sound\client\html\sounds
 * Restart your server.
 
-# Preset Alert Exports.
+# Uyarilari exports etme.
 
 ```lua
 - exports['ps-dispatch']:VehicleShooting(vehicle)
@@ -72,21 +72,21 @@ Do not create issues on GitHub if you need help. Issues are for bug reporting an
 - exports['ps-dispatch']:SignRobbery()
 ```
 
-# Sample Preview
+# Basit Preview
 ![image](https://user-images.githubusercontent.com/82112471/224476364-a362b703-f673-4c34-bd4a-f2b15aa15cb1.png)
 
-# Configuring Departments
+# Departman yapilandirma
 
-1. Open config.lua and add all the jobs you want to use for the alerts
+1. config.lua ac ve alert icin kullanmak istediginiz tum joblari ekleyin
 
 ```lua
 Config.AuthorizedJobs = {
-    LEO = { -- this is for job checks which should only return true for police officers
+    LEO = { -- bu, sadece polis memurları için doğru sonuç vermesi gereken job kontrolu içindir
         Jobs = {['police'] = true, ['fib'] = true, ['sheriff'] = true},
         Types = {['police'] = true, ['leo'] = true},
         ...
     },
-    EMS = { -- this if for job checks which should only return true for ems workers
+    EMS = { -- bu, yalnızca ems çalışanları için true döndürmesi gereken job kontrolleri içinse
         Jobs = {['ambulance'] = true, ['fire'] = true},
         Types = {['ambulance'] = true, ['fire'] = true, ['ems'] = true},
         ...
@@ -95,13 +95,13 @@ Config.AuthorizedJobs = {
 }
 ```
 
-- `Jobs` is the list of jobs that will be checked for the department
-- `Types` is the list of job types that will be checked for the department
-- The `Check` and `FirstResponder` tables should **not** be edited
+- `Jobs` departman için kontrol edilecek joblarin listesidir
+- `Types` departman için kontrol edilecek job türlerinin listesidir
+-  `Check` ve `FirstResponder` tablolar **not** duzenlenebilir
 
-## Department Specific Alerts
+## Departman ozel alerts
 
-1. Open sv_dispatchcodes.lua and add the department you want to add to the list for the alert you want them to receive
+1. sv_dispatchcodes.lua ac ve almak isteginiz alert icin listeye eklemek istediginiz departmani ekleyin
 
 ```lua
     -- All jobs with the LEO type will receive this alert
@@ -111,9 +111,9 @@ Config.AuthorizedJobs = {
     ["shooting"] =  {displayCode = '10-13', description ="Shots Fired", radius = 0, recipientList = {'police', 'fib'}, blipSprite = 110, blipColour = 1, blipScale = 1.5, blipLength = 2, sound = "Lose_1st", sound2 = "GTAO_FM_Events_Soundset", offset = "false", blipflash = "false"},
 ```
 
-- `recipientList` is the list of departments that will receive the alert
+- `recipientList` alerts alacak departmanların listesidir
 
-2. Open cl_events.lua and add the department to the corresponding alert to the one you edited above
+2. cl_events.lua'yı açın ve departmanı yukarıda düzenlediğiniz alerts'e karşılık gelen alerts'e ekleyin
 
 ```lua
 local function Shooting()
@@ -124,7 +124,7 @@ local function Shooting()
     local CurrentWeapon = GetSelectedPedWeapon(PlayerPed)
     local weapon = WeaponTable[CurrentWeapon] or "UNKNOWN"
     TriggerServerEvent("dispatch:server:notify", {
-        dispatchcodename = "shooting", -- has to match the codes in sv_dispatchcodes.lua so that it generates the right blip
+        dispatchcodename = "shooting", -- sv_dispatchcodes.lua dosyasindaki kodlarla eslesmesi gerekir, boylece dogru bip sesi uretir
         dispatchCode = "10-11",
         firstStreet = locationInfo,
         gender = gender,
@@ -140,16 +140,16 @@ local function Shooting()
             z = currentPos.z
         },
         dispatchMessage = _U('shooting'),
-        job = {"police", "fib"} -- has to match the recipientList in sv_dispatchcodes.lua
+        job = {"police", "fib"} -- sv_dispatchcodes.lua dosyasindaki recipientList ile eslesmelidir
     })
 end
 ```
 
-- `job` is the list of departments that will receive the alert
+- `job` Alerts alacak departmanların listesidir
 
-# Creating New Alerts
+# Yeni Alerts Olustur
 
-1. Create a client event that will be triggered from whatever script you want
+1. İstediğiniz script dosyasından tetiklenecek bir client etkinliği oluşturun
 
 ```lua
 local function FleecaBankRobbery(camId)
@@ -157,7 +157,7 @@ local function FleecaBankRobbery(camId)
     local locationInfo = getStreetandZone(currentPos)
     local gender = GetPedGender()
     TriggerServerEvent("dispatch:server:notify",{
-        dispatchcodename = "bankrobbery", -- has to match the codes in sv_dispatchcodes.lua so that it generates the right blip
+        dispatchcodename = "bankrobbery", -- sv_dispatchcodes.lua dosyasindaki kodlarla eslesmesi gerekir, boylece dogru bip sesi uretir
         dispatchCode = "10-90",
         firstStreet = locationInfo,
         gender = gender,
@@ -173,26 +173,26 @@ local function FleecaBankRobbery(camId)
             z = currentPos.z
         },
         dispatchMessage = "Fleeca Bank Robbery", -- message
-        job = {"police"} -- jobs that will get the alerts
+        job = {"police"} -- uyarilari alacak joblar
     })
 end exports('FleecaBankRobbery', FleecaBankRobbery)
 ```
 
-2. Add Dispatch Code in sv_dispatchcodes.lua for the particular robbery to display the blip
+2. Blip'i goruntulemek icin belirli bir soygun icin sv_dispatchcodes.lua ya sevk kodu ekleyin
 
 `["storerobbery"] is the dispatchcodename you passed with the TriggerServerEvent in step 1`
 ```lua
 	["bankrobbery"] =  {displayCode = '10-90', description = "Fleeca Bank Robbery In Progress", radius = 0, recipientList = {'police'}, blipSprite = 500, blipColour = 2, blipScale = 1.5, blipLength = 2, sound = "robberysound"},
 ```
-Information about each parameter is in the file.
+Her parametre hakkında bilgi dosyadadır.
 
-# Alerts with Vehicle Information
-1. If you want to display vehicle information with a particular alert, you need to pass the vehicle along with the exports like this
+# Arac bilgileri ve alerts
+1. Belirli bir alerts ile araç bilgilerini görüntülemek istiyorsanız, exports ile birlikte aracı bu şekilde iletmeniz gerekir.
 ```lua 
 exports['ps-dispatch']:TestVehicleAlert(vehicle)
 ```
 
-and its function in ps-dispatch would look like this
+ve ps-dispatch'teki function şöyle görünürdü
 
 ```lua
 local function TestVehicleAlert(vehicle)
@@ -223,7 +223,7 @@ end
 exports('SpeedingVehicle', SpeedingVehicle)
 ```
 
-# Custom Alert Handler
+# Ozel Alerts Handler
 ```lua
 exports["ps-dispatch"]:CustomAlert({
     coords = vector3(0.0, 0.0, 0.0),
@@ -267,3 +267,4 @@ sound2 -- GTA sound to play
 
 # Credits
 * Castar#5040 for the waypoint snippet.
+* Ritalin snippet icin.
